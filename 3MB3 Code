@@ -1,5 +1,5 @@
   ## Let's choose a random vector of parameters (a, b, c, e, f, g)
-    p <- c(10, 5, 3, 6, 3, 15)
+    p <- c(15, 1, 1, 1, 1, 1)
 
   ## Model specifications
     predPrey <- function(t, y, parameters) {
