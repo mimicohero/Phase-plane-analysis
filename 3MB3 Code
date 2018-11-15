@@ -1,5 +1,5 @@
   ## Let's choose a random vector of parameters (a, b, c, e, f, g)
-    p <- c(20, 1, 1, 1, 1, 1)
+    p <- c(10, 5, 3, 6, 3, 15)
 
   ## Model specifications
     predPrey <- function(t, y, parameters) {
@@ -21,6 +21,8 @@
     predPrey.flowField <- phaseR::flowField(predPrey, xlim = c(0, 20), ylim = c(0, 20),
                             parameters = p, points = 20, add = FALSE, xlab = "prey (x)",
                             ylab = "predators (y)")
+    title(main = paste("Phase Diagram \n","a = ", p[1],", b = ", p[2], ", c = ", p[3],
+                       ", e = ", p[4], ", f = ", p[5], ", g = ", p[6]))
     
   ## Add nullclines
   # y-nullcines
@@ -40,4 +42,3 @@
     legend("topright",c("x-nullclines", "y-nullclines", "Fixed points"),   
            col=c("green","blue","black"), horiz=F, cex=0.8,
            pch=c(NA,NA,1),lty = c(1,1,NA), bg="white")
-      
