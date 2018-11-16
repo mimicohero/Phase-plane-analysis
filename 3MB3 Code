@@ -1,5 +1,9 @@
+########################################################################################
+##################################### Q2, PART B #######################################
+########################################################################################  
+
   ## Let's choose a random vector of parameters (a, b, c, e, f, g)
-    p <- c(15, 1, 1, 1, 1, 1)
+    p <- c(15, 5, 1, 1, 1, 1)
 
   ## Model specifications
     predPrey <- function(t, y, parameters) {
@@ -26,19 +30,107 @@
     
   ## Add nullclines
   # y-nullcines
-    abline(v = 0, col = "blue")
+    abline(h = 0, col = "blue")
     curve((p[4]*x + p[5])/p[6], col="blue", lwd=1, add=TRUE)
+
   # x-nullcines
-    abline(h = 0, col = "green")
+    abline(v = 0, col = "green")
     curve((p[1] - p[2]*x)/p[3], col="green", lwd=1, add=TRUE)
-  
+
   ## Plot fixed points
-    points(x = 0, y = p[5]/p[6])
-    points(x = 0, y = 0)
-    points(x = p[1]/p[2], 0)
+    points(x = 0, y = p[5]/p[6], pch = 16)
+    points(x = 0, y = 0, pch = 16)
+    points(x = p[1]/p[2], 0, pch = 16)
     points(x = (p[6]*p[1]-p[3]*p[5])/(p[3]*p[4]+p[6]*p[2]), 
-           y = (p[4]*((p[6]*p[1]-p[3]*p[5])/(p[3]*p[4]+p[6]*p[2]))+p[5])/p[6])
+           y = (p[4]*((p[6]*p[1]-p[3]*p[5])/(p[3]*p[4]+p[6]*p[2]))+p[5])/p[6], pch = 16)
   ## Add legend
     legend("topright",c("x-nullclines", "y-nullclines", "Fixed points"),   
            col=c("green","blue","black"), horiz=F, cex=0.8,
-           pch=c(NA,NA,1),lty = c(1,1,NA), bg="white")
+           pch=c(NA,NA,16),lty = c(1,1,NA), bg="white")
+    
+########################################################################################
+##################################### Q2, PART D #######################################
+########################################################################################
+    
+  ## Plot trajectories for a given starting point
+    traject <- function(starting_point){
+      trajectory <- phaseR::trajectory(predPrey, parameters = p, y0 = c(starting_point), 
+                                       tlim = c(0, 100), col = "purple")
+    }
+  
+    traject(c(20,5))
+    traject(c(3,17))
+    traject(c(5,1))
+      
+  ## Add trajectories to legend
+    legend("topright",c("x-nullclines", "y-nullclines", "Fixed points", "Trajectories"),   
+           col=c("green","blue","black","purple"), horiz=F, cex=0.8,
+           pch=c(NA,NA,16,NA),lty = c(1,1,NA,1), bg="white")
+    
+
+########################################################################################
+#################################### Q1, PART B ########################################
+########################################################################################  
+    
+  ## Let's choose a random vector of parameters (a, b, c, e, f, g)
+    p <- c(7, 3, 1, 1, 2)
+    
+  ## Model specifications
+    predPrey <- function(t, y, parameters) {
+      x <- y[1]
+      y <- y[2]
+      a <- parameters[1]
+      b <- parameters[2]
+      c <- parameters[3]
+      e <- parameters[4]
+      f <- parameters[5]
+      dy <- numeric(2)
+      dy[1] <- a*x - b*x^2 - c*x*y
+      dy[2] <- e*x*y - f*y
+      list(dy)
+    }
+    
+  ## Plot phase portrait  
+    predPrey.flowField <- phaseR::flowField(predPrey, xlim = c(0, 20), ylim = c(0, 20),
+                                            parameters = p, points = 20, add = FALSE, 
+                                            xlab = "prey (x)", ylab = "predators (y)")
+    title(main = paste("Phase Diagram \n","a = ", p[1],", b = ", p[2], ", c = ", p[3],
+                       ", e = ", p[4], ", f = ", p[5]))
+    
+  ## Add nullclines
+  # y-nullcines
+    abline(h = 0, col = "blue")
+    abline(v = p[5]/p[4], col = "blue")
+    
+  # x-nullcines
+    abline(v = 0, col = "green")
+    curve((p[1] - p[2]*x)/p[3], col="green", lwd=1, add=TRUE)
+    
+  ## Plot fixed points
+    points(x = 0, y = 0, pch = 16)
+    points(x = p[1]/p[2], 0, pch = 16)
+    points(x = p[5]/p[4], 
+           y = (p[1] - p[2]*(p[5]/p[4]))/p[3], pch = 16)
+  ## Add legend
+    legend("topright",c("x-nullclines", "y-nullclines", "Fixed points"),   
+           col=c("green","blue","black"), horiz=F, cex=0.8,
+           pch=c(NA,NA,16),lty = c(1,1,NA), bg="white")
+    
+########################################################################################
+#################################### Q1, PART D ########################################
+########################################################################################
+    
+  ## Plot trajectories for a given starting point
+    traject <- function(starting_point){
+      trajectory <- phaseR::trajectory(predPrey, parameters = p, y0 = c(starting_point), 
+                                       tlim = c(0, 100), col = "purple")
+    }
+    
+    traject(c(20,5))
+    traject(c(3,17))
+    traject(c(5,1))
+    
+  ## Add trajectories to legend
+    legend("topright",c("x-nullclines", "y-nullclines", "Fixed points", "Trajectories"),   
+           col=c("green","blue","black","purple"), horiz=F, cex=0.8,
+           pch=c(NA,NA,16,NA),lty = c(1,1,NA,1), bg="white")
